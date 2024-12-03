@@ -48,7 +48,8 @@ body {
 	text-align: left;
 	font-size: 15px;
 	color: #333;
-	padding-left: 10px; /* ラベル全体を右に移動 */
+	padding-left: 10px;
+	/* ラベル全体を右に移動 */
 }
 
 .leave-type-container label {
@@ -59,7 +60,8 @@ body {
 	text-align: left;
 	font-size: 15px;
 	color: #333;
-	padding-left: 10px; /* ラベル全体を右に移動 */
+	padding-left: 10px;
+	/* ラベル全体を右に移動 */
 }
 
 /* 選択ボックス（年月日） */
@@ -114,12 +116,14 @@ body {
 
 /* 休暇開始日と休暇終了日の個別スタイル */
 .date-container.start-date {
-	margin-top: 90px; /* 開始日 */
+	margin-top: 90px;
+	/* 開始日 */
 	padding-left: 50px;
 }
 
 .date-container.end-date {
-	margin-top: 15px; /* 終了日 */
+	margin-top: 15px;
+	/* 終了日 */
 	padding-left: 50px;
 }
 
@@ -151,9 +155,35 @@ body {
 	cursor: pointer;
 	background-color: #8faadc;
 	color: white;
-	border: none; 
+	border: none;
 }
 
 .button-container button:hover {
 	background-color: #0056b3;
+}
+
+/* エラーメッセージがある時のデザイン */
+.inner-container.error-shown .date-container.start-date {
+    margin-top: 0px; 
+}
+
+.inner-container.error-shown .date-container.end-date {
+    margin-top: 10px;
+}
+
+.inner-container.error-shown .leave-type-container {
+    margin-top: 20px;
+}
+
+.inner-container.error-shown .reason-container {
+    margin-top: 20px;
+}
+
+
+.error-message {
+	position: relative;
+	margin-top: 40px;
+	text-align: center;
+	color: red;
+	font-size: 16px;
 }
