@@ -11,11 +11,15 @@
 <body>
 	<div class="outer-container">
 		<div class="inner-container">
+			<%
+			// サーブレットから渡された打刻の種類を変数に定義
+			String punchType = (String) request.getAttribute("punchType");
+			%>
 			<!-- サーブレットから渡された打刻の種類を表示 -->
-			<div class="corner-label"><%=request.getAttribute("punchType")%></div>
+			<div class="corner-label"><%=punchType%></div>
 			<%
 			// 不明なタイプの場合のエラーチェック
-			if ("不明な打刻".equals(request.getAttribute("punchType"))) {
+			if ("不明な打刻".equals(punchType)) {
 			%>
 			<p class="info">エラー: 無効な打刻タイプが選択されました。</p>
 			<a href="timeStamp.jsp" class="back-link">戻る</a>

@@ -31,11 +31,19 @@ public class LeaveRequestDAO {
 
 			// SQL 実行
 			int rowsInserted = pstmt.executeUpdate();
-			return rowsInserted > 0;
+
+			// 完了画面へリダイレクトが必要な場合の処理
+			if (rowsInserted > 0) {
+				System.out.println("休暇申請が正常に登録されました。");
+				return true; // 登録成功
+			} else {
+				System.out.println("休暇申請の登録に失敗しました。");
+				return false; // 登録失敗
+			}
 
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			return false;
+			return false; // エラー時も false を返す
 		}
 	}
 }

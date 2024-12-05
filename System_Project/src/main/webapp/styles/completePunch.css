@@ -48,6 +48,7 @@ body {
 }
 
 .message {
+	text-align: center;
 	color: red;
 	font-size: 20px;
 	margin: 35px 0;
@@ -57,13 +58,13 @@ body {
 .back-link {
 	position: absolute;
 	bottom: 30%;
-	right: 20px;
-	width: 80px; /* ボタンの幅 */
-	height: 30px; /* ボタンの高さ */
+	right: 10%;
+	width: 95px; /* ボタンの幅 */
+	height: 46px; /* ボタンの高さ */
 	display: flex; /* フレックスボックスで中央揃え */
 	justify-content: center; /* 横方向中央揃え */
 	align-items: center; /* 縦方向中央揃え */
-	font-size: 9px; /* 文字サイズ */
+	font-size: 11px; /* 文字サイズ */
 	color: white; /* ボタン内の文字色 */
 	text-decoration: none;
 	border: 1px solid black; /* ボタンの外枠 */

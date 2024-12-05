@@ -10,19 +10,24 @@
 <body>
 	<div class="outer-container">
 		<div class="inner-container">
+			<%
+            // サーブレットから渡された打刻の種類を変数に定義
+            String punchType = (String) request.getAttribute("punchType");
+            String registeredTime = (String) request.getAttribute("registeredTime");
+            %>
 			<!-- 打刻タイプを表示 -->
 			<div class="corner-label">
-				<%=request.getAttribute("punchType")%>
+				<%= punchType %>
 			</div>
 
 			<!-- 登録された時刻を表示 -->
 			<p class="registered-time">
-				<%=request.getAttribute("registeredTime")%>
+				<%= registeredTime %>
 			</p>
 
 			<!-- 赤文字で打刻完了メッセージを表示 -->
 			<p class="message">
-				上記時刻で<%=request.getAttribute("punchType")%>を完了しました。
+				上記時刻で<%= punchType %>を完了しました。
 			</p>
 
 			<!-- メニューへ戻るボタン -->

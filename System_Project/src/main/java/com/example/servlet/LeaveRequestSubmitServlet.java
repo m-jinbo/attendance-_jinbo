@@ -1,16 +1,13 @@
 package com.example.servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 
-import model.dao.ConnectionManager;
+import model.dao.LeaveRequestDAO;
 
 @WebServlet("/LeaveRequestSubmitServlet")
 public class LeaveRequestSubmitServlet extends HttpServlet {
@@ -19,7 +16,7 @@ public class LeaveRequestSubmitServlet extends HttpServlet {
 	@Override
 	protected void doPost(javax.servlet.http.HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		 // リクエストの文字エンコーディングをUTF-8に設定
+		// リクエストの文字エンコーディングをUTF-8に設定
 		request.setCharacterEncoding("UTF-8");
 
 		// 入力データを取得
@@ -29,23 +26,16 @@ public class LeaveRequestSubmitServlet extends HttpServlet {
 		int leaveType = Integer.parseInt(request.getParameter("leaveType"));
 		String reason = request.getParameter("reason");
 
-		// DB登録処理
-		try (Connection conn = ConnectionManager.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(
-						"INSERT INTO leave_requests (employee_id, leave_type, start_date, end_date, reason) VALUES (?, ?, ?, ?, ?)")) {
-			pstmt.setInt(1, employeeId);
-			pstmt.setInt(2, leaveType);
-			pstmt.setString(3, startDate);
-			pstmt.setString(4, endDate);
-			pstmt.setString(5, reason);
-			pstmt.executeUpdate();
+		// DAO を使用して休暇申請を登録
+		LeaveRequestDAO leaveRequestDAO = new LeaveRequestDAO();
+		boolean isInserted = leaveRequestDAO.insertLeaveRequest(employeeId, leaveType, startDate, endDate, reason);
 
-			// 完了画面へリダイレクト
+		if (isInserted) {
+			// 登録成功時は完了画面へリダイレクト
 			response.sendRedirect("leaveRequestComplete.jsp");
-
-		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
-			request.setAttribute("errorMessage", "申請に失敗しました: " + e.getMessage());
+		} else {
+			// 登録失敗時はエラーメッセージを設定して確認画面へ戻る
+			request.setAttribute("errorMessage", "申請に失敗しました。再度お試しください。");
 			request.getRequestDispatcher("leaveRequestConfirmation.jsp").forward(request, response);
 		}
 	}

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.dao.GetTimeRecordDAO;
 import model.dao.TimeRecordDAO;
 
 @WebServlet("/CompletePunchServlet")
@@ -47,7 +46,7 @@ public class CompletePunchServlet extends HttpServlet {
 			}
 
 			// 最新の登録時間を取得
-			GetTimeRecordDAO timeRecordDAO = new GetTimeRecordDAO();
+			TimeRecordDAO timeRecordDAO = new TimeRecordDAO();
 			@SuppressWarnings("unused")
 			String registeredTime = timeRecordDAO.getLastRecordTime(employeeId);
 
