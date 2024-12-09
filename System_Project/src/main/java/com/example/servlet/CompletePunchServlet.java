@@ -20,6 +20,8 @@ public class CompletePunchServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+
 		int employeeId = 1; // 固定値（ログイン機能があれば置き換える）
 		String type = request.getParameter("type");
 

@@ -4,74 +4,65 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>ユーザー登録確認</title>
+<title><%=request.getAttribute("pageTitle") != null ? request.getAttribute("pageTitle") : "ユーザー登録確認"%></title>
 <link rel="stylesheet" type="text/css"
-	href="styles/user_registrationConfirmation.css">
+	href="styles/<%=request.getAttribute("stylesheetName") != null ? request.getAttribute("stylesheetName")
+		: "user_registrationConfirmation.css"%>">
 </head>
 <body>
 	<div class="outer-container">
-		<div class="inner-container">
-			<!-- ロゴ -->
-			<div class="logo-container">
-				<img src="images/seasissst.png" alt="SE Assist Logo" class="logo">
-			</div>
-			<!-- ユーザー登録タイトル -->
-			<p class="title">ユーザー登録</p>
+		<!-- ロゴ -->
+		<div class="logo-container">
+			<img
+				src="<%=request.getAttribute("logoPath") != null ? request.getAttribute("logoPath") : "images/seasissst.png"%>"
+				alt="<%=request.getAttribute("logoAlt") != null ? request.getAttribute("logoAlt") : "SE Assist Logo"%>"
+				class="logo">
+		</div>
 
+		<div class="inner-container">
+			<!-- タイトル -->
+			<p class="title"><%=request.getAttribute("pageTitle")%></p>
 
 			<!-- 確認メッセージ -->
-			<p class="info confirmation-message">こちらの内容で登録しますか？</p>
+			<p class="info confirmation-message"><%=request.getAttribute("confirmationMessage")%></p>
 
 			<!-- 確認フォーム -->
-			<form action="CompleteRegistrationServlet" method="post"
-				class="registration-form">
-				<%
-				String name = (String) request.getAttribute("name");
-				String locationName = (String) request.getAttribute("locationName");
-				String employeeId = (String) request.getAttribute("employeeId");
-				String password = (String) request.getAttribute("password");
-				%>
-
-				<!-- 名前 -->
+			<form action="<%=request.getAttribute("formAction")%>" method="post"
+				class="confirmation-form">
 				<div class="form-group info">
-					<label for="name">名前</label>
-					<div>
-						<input type="text" id="name" name="name"
-							value="<%=name != null ? name : ""%>" readonly>
-					</div>
+					<label>名前</label>
+					<p><%=request.getAttribute("name")%></p>
+					<input type="hidden" name="name"
+						value="<%=request.getAttribute("name")%>">
 				</div>
 
-				<!-- 拠点 -->
 				<div class="form-group info">
-					<label for="location">拠点</label>
-					<div>
-						<input type="text" id="location" name="location"
-							value="<%=locationName != null ? locationName : ""%>" readonly>
-					</div>
+					<label>拠点</label>
+					<p><%=request.getAttribute("location")%></p>
+					<input type="hidden" name="locationId"
+						value="<%=request.getAttribute("locationId")%>">
 				</div>
 
-				<!-- 社員ID -->
 				<div class="form-group info">
-					<label for="employeeId">社員ID</label>
-					<div>
-						<input type="text" id="employeeId" name="employeeId"
-							value="<%=employeeId != null ? employeeId : ""%>" readonly>
-					</div>
+					<label>社員ID</label>
+					<p><%=request.getAttribute("username")%></p>
+					<input type="hidden" name="username"
+						value="<%=request.getAttribute("username")%>">
 				</div>
 
-				<!-- パスワード -->
 				<div class="form-group info">
-					<label for="password">パスワード</label>
-					<div>
-						<input type="password" id="password" name="password"
-							value="<%=password != null ? password : ""%>" readonly>
-					</div>
+					<label>パスワード</label>
+					<p>******</p>
+					<input type="hidden" name="password"
+						value="<%=request.getAttribute("password")%>">
 				</div>
 
 				<!-- ボタン -->
 				<div class="form-group button-container">
-					<button type="submit" class="submit-button">登録</button>
-					<a href="user_registration.jsp" class="back-button">戻る</a>
+					<button type="submit" class="submit-button"><%=request.getAttribute("submitButtonText")%></button>
+					<a href="<%=request.getAttribute("backButtonLink")%>"
+						class="back-button"> <%=request.getAttribute("backButtonText")%>
+					</a>
 				</div>
 			</form>
 		</div>

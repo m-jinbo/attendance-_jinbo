@@ -10,57 +10,70 @@
 </head>
 <body>
 	<div class="outer-container">
-		<div class="inner-container">
-			<!-- ロゴ -->
-			<div class="logo-container">
-				<img src="images/seasissst.png" alt="SE Assist Logo" class="logo">
-			</div>
+		<!-- ロゴ -->
+		<div class="logo-container">
+			<img src="images/seasissst.png" alt="SE Assist Logo" class="logo">
+		</div>
 
+		<!-- 動的に error-shown クラスを適用 -->
+		<div
+			class="inner-container <%=request.getAttribute("errorMessage") != null ? "error-shown" : ""%>">
 			<!-- ユーザー登録タイトル -->
 			<p class="title">ユーザー登録</p>
+
+			<!-- 全体エラーメッセージ -->
+			<%
+			if (request.getAttribute("errorMessage") != null) {
+			%>
+			<div class="error-message">
+				<%=request.getAttribute("errorMessage")%>
+			</div>
+			<%
+			}
+			%>
 
 			<!-- 登録フォーム -->
 			<form action="UserRegistrationServlet" method="post"
 				class="registration-form">
 				<!-- 名前 -->
 				<div class="form-group">
-					<label for="name">名前</label>
-					<div>
-						<input type="text" id="name" name="name" required>
-					</div>
+					<label for="name">名前</label> <input type="text" id="name"
+						name="name"
+						value="<%=request.getAttribute("name") != null ? request.getAttribute("name") : ""%>">
 				</div>
 
 				<!-- 拠点 -->
 				<div class="form-group">
-					<label for="location">拠点</label>
-					<div>
-						<select id="location" name="location" required
-							class="custom-select">
-							<option value="" disabled selected></option>
-							<option value="1">札幌</option>
-							<option value="2">仙台</option>
-							<option value="3">名古屋</option>
-							<option value="4">大阪</option>
-							<option value="5">東京</option>
-							<option value="6">福岡</option>
-						</select>
-					</div>
+					<label for="locationId">拠点</label> <select id="locationId"
+						name="locationId">
+						<option value="" disabled selected></option>
+						<option value="1"
+							<%="1".equals(request.getAttribute("locationId")) ? "selected" : ""%>>札幌</option>
+						<option value="2"
+							<%="2".equals(request.getAttribute("locationId")) ? "selected" : ""%>>仙台</option>
+						<option value="3"
+							<%="3".equals(request.getAttribute("locationId")) ? "selected" : ""%>>名古屋</option>
+						<option value="4"
+							<%="4".equals(request.getAttribute("locationId")) ? "selected" : ""%>>大阪</option>
+						<option value="5"
+							<%="5".equals(request.getAttribute("locationId")) ? "selected" : ""%>>東京</option>
+						<option value="6"
+							<%="6".equals(request.getAttribute("locationId")) ? "selected" : ""%>>福岡</option>
+					</select>
 				</div>
 
 				<!-- 社員ID -->
 				<div class="form-group">
-					<label for="employeeId">社員ID</label>
-					<div>
-						<input type="text" id="employeeId" name="employeeId" required>
-					</div>
+					<label for="username">社員ID</label> <input type="text" id="username"
+						name="username"
+						value="<%=request.getAttribute("username") != null ? request.getAttribute("username") : ""%>">
 				</div>
 
 				<!-- パスワード -->
 				<div class="form-group">
-					<label for="password">パスワード</label>
-					<div>
-						<input type="password" id="password" name="password" required>
-					</div>
+					<label for="password">パスワード</label> <input type="password"
+						id="password" name="password"
+						value="<%=request.getAttribute("password") != null ? request.getAttribute("password") : ""%>">
 				</div>
 
 				<!-- 登録ボタン -->

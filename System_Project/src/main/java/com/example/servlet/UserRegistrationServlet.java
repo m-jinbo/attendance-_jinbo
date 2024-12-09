@@ -18,21 +18,27 @@ public class UserRegistrationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// リクエストの文字エンコーディングを設定
+		
 		request.setCharacterEncoding("UTF-8");
 
 		// リクエストパラメータの取得
-		String name = request.getParameter("name"); // 名前
-		String locationId = request.getParameter("location"); // 拠点ID
-		String username = request.getParameter("employeeId"); // 社員ID (DBではusername)
-		String password = request.getParameter("password"); // パスワード
+		String name = request.getParameter("name");
+		String locationId = request.getParameter("locationId");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 
-		// 必須チェック（エラー処理は既存コードを踏襲）
+		// 入力検証
 		if (name == null || name.trim().isEmpty() ||
 				locationId == null || locationId.trim().isEmpty() ||
 				username == null || username.trim().isEmpty() ||
 				password == null || password.trim().isEmpty()) {
-			request.setAttribute("errorMessage", "全て入力してください。");
+
+			// エラー時の処理
+			request.setAttribute("errorMessage", "全ての項目を入力してください。");
+			request.setAttribute("name", name);
+			request.setAttribute("locationId", locationId);
+			request.setAttribute("username", username);
+			request.setAttribute("password", password);
 			request.getRequestDispatcher("user_registration.jsp").forward(request, response);
 			return;
 		}
@@ -49,10 +55,22 @@ public class UserRegistrationServlet extends HttpServlet {
 			return;
 		}
 
-		// リクエストスコープにデータを保存
+		// 確認画面用データ設定
+		request.setAttribute("pageTitle", "ユーザー登録");
+		request.setAttribute("stylesheetName", "user_registrationConfirmation.css");
+		request.setAttribute("logoPath", "images/seasissst.png");
+		request.setAttribute("logoAlt", "SE Assist Logo");
+		request.setAttribute("confirmationMessage", "以下の内容で登録しますか？");
+		request.setAttribute("formAction", "CompleteRegistrationServlet");
+		request.setAttribute("submitButtonText", "登録");
+		request.setAttribute("backButtonLink", "user_registration.jsp");
+		request.setAttribute("backButtonText", "戻る");
+
+		// 入力内容を確認画面に送る
 		request.setAttribute("name", name);
-		request.setAttribute("locationName", locationName);
-		request.setAttribute("employeeId", username); // 修正: "username"を"employeeId"に統一
+		request.setAttribute("location", locationName);
+		request.setAttribute("locationId", locationId);
+		request.setAttribute("username", username);
 		request.setAttribute("password", password);
 
 		// 確認画面へフォワード
