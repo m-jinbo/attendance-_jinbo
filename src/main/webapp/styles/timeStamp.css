@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.logo-container {
+	margin-top: 8px;
+	display: flex;
+	justify-content: center;
+}
+
+.logo {
+	width: auto;
+	height: 64px;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	width: 200px;
+	height: 690px;
+	background-color: #a2b8e0;
+}
+
+.menu-item.active {
+    font-weight: bold;
+}
+
+.menu {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.menu ul {
+	list-style-type: none;
+}
+
+.menu-item {
+	display: block;
+	padding: 6px;
+	color: #333;
+	text-decoration: none;
+	font-size: 16px;
+	border-radius: 5px;
+}
+
+.user-info {
+	display: inline-block;
+	margin-top: 192%;
+	margin-left: 30px;
+}
+
+.username-display {
+	margin-bottom: 3px;
+}
+
+.logout {
+	text-decoration: none;
+	color: white;
+}
+
+.outer-container {
+	width: 630px;
+	height: 690px;
+	background-color: #f2f2f2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
+.inner-container {
+	width: 520px;
+	height: 605px;
+	background-color: white;
+	padding: 20px;
+	border-radius: 0px;
+	text-align: left;
+	position: relative;
+}
+
+.button-container button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 240px;
+	height: 90px;
+	margin: 50px auto;
+	font-size: 24px;
+	border: 2px solid black;
+	border-radius: 16px;
+	cursor: pointer;
+	background-color: #9dc3e6;
+	color: black;
+	transition: background-color 0.3s;
+}
+
+.button-container button:hover {
+	background-color: #0056b3;
+}

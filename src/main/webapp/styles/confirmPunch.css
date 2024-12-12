@@ -1,0 +1,137 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.logo-container {
+	margin-top: 8px;
+	display: flex;
+	justify-content: center;
+}
+
+.logo {
+	width: auto;
+	height: 64px;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	width: 200px;
+	height: 690px;
+	background-color: #a2b8e0;
+}
+
+.menu-item.active {
+    font-weight: bold;
+}
+
+.menu {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.menu ul {
+	list-style-type: none;
+}
+
+.menu-item {
+	display: block;
+	padding: 6px;
+	color: #333;
+	text-decoration: none;
+	font-size: 16px;
+	border-radius: 5px;
+}
+
+.user-info {
+	display: inline-block;
+	margin-top: 192%;
+	margin-left: 30px;
+}
+
+.username-display {
+	margin-bottom: 3px;
+}
+
+.logout {
+	text-decoration: none;
+	color: white;
+}
+
+
+.outer-container {
+	width: 630px;
+	height: 690px;
+	background-color: #f2f2f2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.inner-container {
+	width: 520px;
+	height: 605px;
+	background-color: white;
+	padding: 20px;
+	border-radius: 0px;
+	text-align: center;
+	/* 中央寄せ */
+	position: relative;
+}
+
+.corner-label {
+	position: absolute;
+	top: 27px;
+	left: 32px;
+	font-size: 19px;
+	font-weight: bold;
+	color: black;
+	background-color: white;
+}
+
+#currentTime {
+	margin-top: 30%;
+	font-size: 60px;
+	color: #333;
+}
+
+.info {
+	text-align: center;
+	color: red;
+	font-size: 20px;
+	margin-top: 20px;
+}
+
+/* ボタンコンテナ */
+.button-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 40px;
+	/* 調整 */
+}
+
+/* 打刻ボタン */
+.button {
+	font-size: 17px;
+	color: white;
+	background-color: #8faadc;
+	border: none;
+	padding: 10px 30px;
+	border-radius: 5px;
+	cursor: pointer;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+	background-color: #0056b3;
+}

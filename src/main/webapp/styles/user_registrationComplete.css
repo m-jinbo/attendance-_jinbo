@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: white;
+	margin-top: 50px;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	height: 100vh;
+}
+
+.outer-container {
+	width: 800px;
+	height: auto;
+	/* 高さを自動調整 */
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	/* 子要素を縦に並べる */
+	justify-content: center;
+	align-items: center;
+}
+
+.inner-container {
+	display: flex;
+	flex-direction: column;
+	/* 子要素を縦方向に配置 */
+	align-items: center;
+	position: relative;
+	width: 410px;
+	height: 236px;
+	border: 2px solid #cccccc;
+	border-radius: 54px;
+}
+
+.logo-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 20px;
+	/* ロゴとインナーコンテナの間隔 */
+}
+
+.logo {
+	width: 86px;
+	/* 必要に応じて調整 */
+	height: auto;
+}
+
+.message {
+	color: red;
+	font-size: 28px;
+}
+
+.button-container{
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	width: 126px;
+	height: 54px;
+	background-color: #13b8a6;
+	border: none;
+	border-radius: 10px;
+	text-align: center;
+	margin-left: 157px;
+}
+
+.login-button{
+	text-decoration: none;
+	align-items: center;
+	color: white;
+}
+
+
+

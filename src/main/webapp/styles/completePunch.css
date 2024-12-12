@@ -1,0 +1,152 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.logo-container {
+	margin-top: 8px;
+	display: flex;
+	justify-content: center;
+}
+
+.logo {
+	width: auto;
+	height: 64px;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	width: 200px;
+	height: 690px;
+	background-color: #a2b8e0;
+}
+
+.menu-item.active {
+    font-weight: bold;
+}
+
+.menu {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.menu ul {
+	list-style-type: none;
+}
+
+.menu-item {
+	display: block;
+	padding: 6px;
+	color: #333;
+	text-decoration: none;
+	font-size: 16px;
+	border-radius: 5px;
+}
+
+.user-info {
+	display: inline-block;
+	margin-top: 192%;
+	margin-left: 30px;
+}
+
+.username-display {
+	margin-bottom: 3px;
+}
+
+.logout {
+	text-decoration: none;
+	color: white;
+}
+
+
+.outer-container {
+	width: 630px;
+	height: 690px;
+	background-color: #f2f2f2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.inner-container {
+	width: 520px;
+	height: 605px;
+	background-color: white;
+	padding: 20px;
+	border-radius: 0px;
+	text-align: left;
+	position: relative;
+}
+
+.corner-label {
+	position: absolute;
+	top: 27px;
+	left: 32px;
+	font-size: 19px;
+	font-weight: bold;
+	color: black;
+	background-color: white;
+	/* 背景色を白に設定 */
+}
+
+.registered-time {
+	font-size: 60px;
+	/* フォントサイズを変更  */
+	color: #333;
+	/* テキスト色を変更 (例: ダークグレー) */
+	text-align: center;
+	/* 中央揃え */
+	margin: 20px 0;
+	/* 上下に余白を追加 */
+	padding-top: 150px;
+}
+
+.message {
+	text-align: center;
+	color: red;
+	font-size: 20px;
+	margin: 35px 0;
+	font-weight: bolder;
+}
+
+.back-link {
+	position: absolute;
+	bottom: 30%;
+	right: 10%;
+	width: 95px;
+	/* ボタンの幅 */
+	height: 46px;
+	/* ボタンの高さ */
+	display: flex;
+	/* フレックスボックスで中央揃え */
+	justify-content: center;
+	/* 横方向中央揃え */
+	align-items: center;
+	/* 縦方向中央揃え */
+	font-size: 11px;
+	/* 文字サイズ */
+	color: white;
+	/* ボタン内の文字色 */
+	text-decoration: none;
+	border: 1px solid black;
+	/* ボタンの外枠 */
+	border-radius: 5px;
+	background-color: #8faadc;
+	/* ボタンの背景色 */
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.back-link:hover {
+	background-color: #f0f0f0;
+	text-decoration: none;
+}
