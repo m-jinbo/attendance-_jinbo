@@ -1,8 +1,8 @@
 package model.entity;
 
 public class Roles {
-	private int roleId;
-	private String roleName;
+	private int roleId; // 権限ID
+	private String roleName; // 権限名
 
 	// Getter and Setter for roleId
 	public int getRoleId() {

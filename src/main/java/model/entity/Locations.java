@@ -1,8 +1,8 @@
 package model.entity;
 
 public class Locations {
-	private int locationId;
-	private String locationName;
+	private int locationId; // 拠点ID
+	private String locationName; // 拠点名
 
 	// Getter and Setter for locationId
 	public int getLocationId() {

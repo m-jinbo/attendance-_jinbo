@@ -19,17 +19,18 @@ public class CompleteRegistrationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// リクエストの文字エンコーディングを設定
 		request.setCharacterEncoding("UTF-8");
 		try {
 			// ユーザー情報を取得
 			String name = request.getParameter("name");
-			String username = request.getParameter("username"); // 社員ID
+			String userId = request.getParameter("user_id"); // 社員ID (変更)
 			String password = request.getParameter("password");
 			String locationIdParam = request.getParameter("locationId");
 
 			// 入力検証
 			if (name == null || name.trim().isEmpty() ||
-					username == null || username.trim().isEmpty() ||
+					userId == null || userId.trim().isEmpty() ||
 					password == null || password.trim().isEmpty() ||
 					locationIdParam == null || locationIdParam.trim().isEmpty()) {
 				request.setAttribute("errorMessage", "全ての項目を入力してください。");
@@ -43,9 +44,9 @@ public class CompleteRegistrationServlet extends HttpServlet {
 			// Employees モデルを作成
 			Employees employee = new Employees();
 			employee.setName(name);
-			employee.setUsername(username);
+			employee.setUserId(userId); // user_id に変更
 			employee.setPassword(password);
-			employee.setRoleId(2);
+			employee.setRoleId(2); // 一般ユーザーを想定
 
 			// EmployeeProfile モデルを作成
 			EmployeeProfile profile = new EmployeeProfile();
@@ -56,17 +57,21 @@ public class CompleteRegistrationServlet extends HttpServlet {
 			boolean isRegistered = userDAO.registerEmployeeWithProfile(employee, profile);
 
 			if (isRegistered) {
+				// 登録成功時の完了画面リダイレクト
 				response.sendRedirect("user_registrationComplete.jsp");
 			} else {
+				// 登録失敗時
 				request.setAttribute("errorMessage", "登録に失敗しました。");
 				request.getRequestDispatcher("user_registration.jsp").forward(request, response);
 			}
 
 		} catch (NumberFormatException e) {
+			// locationId の形式が不正
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "拠点の選択が正しくありません。");
 			request.getRequestDispatcher("user_registration.jsp").forward(request, response);
 		} catch (Exception e) {
+			// その他のシステムエラー
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "システムエラーが発生しました。");
 			request.getRequestDispatcher("user_registration.jsp").forward(request, response);

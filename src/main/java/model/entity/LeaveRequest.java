@@ -3,13 +3,23 @@ package model.entity;
 import java.time.LocalDate;
 
 public class LeaveRequest {
-	private int employeeId;
-	private int leaveType;
-	private LocalDate startDate;
-	private LocalDate endDate;
-	private String reason;
+	private int requestId; // 申請ID
+	private int employeeId; // 従業員ID（外部キー）
+	private int leaveId; // 休暇種類（1: 有給, 2: 欠勤, 3: 特別休暇など） <- 修正
+	private LocalDate startDate; // 休暇開始日
+	private LocalDate endDate; // 休暇終了日
+	private String reason; // 休暇理由
 
-	// Getter and Setter
+	// Getter and Setter for requestId
+	public int getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(int requestId) {
+		this.requestId = requestId;
+	}
+
+	// Getter and Setter for employeeId
 	public int getEmployeeId() {
 		return employeeId;
 	}
@@ -18,14 +28,16 @@ public class LeaveRequest {
 		this.employeeId = employeeId;
 	}
 
-	public int getLeaveType() {
-		return leaveType;
+	// Getter and Setter for leaveId <- 修正
+	public int getLeaveId() {
+		return leaveId;
 	}
 
-	public void setLeaveType(int leaveType) {
-		this.leaveType = leaveType;
+	public void setLeaveId(int leaveId) {
+		this.leaveId = leaveId;
 	}
 
+	// Getter and Setter for startDate
 	public LocalDate getStartDate() {
 		return startDate;
 	}
@@ -34,6 +46,7 @@ public class LeaveRequest {
 		this.startDate = startDate;
 	}
 
+	// Getter and Setter for endDate
 	public LocalDate getEndDate() {
 		return endDate;
 	}
@@ -42,6 +55,7 @@ public class LeaveRequest {
 		this.endDate = endDate;
 	}
 
+	// Getter and Setter for reason
 	public String getReason() {
 		return reason;
 	}

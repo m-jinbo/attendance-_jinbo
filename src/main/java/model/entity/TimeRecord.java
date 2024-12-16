@@ -2,22 +2,11 @@ package model.entity;
 
 public class TimeRecord {
 	private int recordId; // レコードID
-	private int employeeId; // 従業員ID
-	private int recordType; // 打刻タイプ（1: 出勤, 2: 休憩開始など）
+	private int employeeId; // 従業員ID（外部キー）
+	private int recordType; // 打刻タイプ（1: 出勤, 2: 退勤など）
 	private String recordTime; // 打刻時間
 
-	// デフォルトコンストラクタ
-	public TimeRecord() {
-	}
-
-	// コンストラクタ
-	public TimeRecord(int employeeId, int recordType, String recordTime) {
-		this.employeeId = employeeId;
-		this.recordType = recordType;
-		this.recordTime = recordTime;
-	}
-
-	// ゲッターとセッター
+	// Getter and Setter for recordId
 	public int getRecordId() {
 		return recordId;
 	}
@@ -26,6 +15,7 @@ public class TimeRecord {
 		this.recordId = recordId;
 	}
 
+	// Getter and Setter for employeeId
 	public int getEmployeeId() {
 		return employeeId;
 	}
@@ -34,6 +24,7 @@ public class TimeRecord {
 		this.employeeId = employeeId;
 	}
 
+	// Getter and Setter for recordType
 	public int getRecordType() {
 		return recordType;
 	}
@@ -42,17 +33,12 @@ public class TimeRecord {
 		this.recordType = recordType;
 	}
 
+	// Getter and Setter for recordTime
 	public String getRecordTime() {
 		return recordTime;
 	}
 
 	public void setRecordTime(String recordTime) {
 		this.recordTime = recordTime;
-	}
-
-	@Override
-	public String toString() {
-		return "TimeRecord [recordId=" + recordId + ", employeeId=" + employeeId +
-				", recordType=" + recordType + ", recordTime=" + recordTime + "]";
 	}
 }

@@ -32,14 +32,14 @@
 		<div class="user-info">
 			<!-- ログインユーザー名を表示 -->
 			<%
-			String username = (String) session.getAttribute("username");
-			if (username != null) {
+			String name = (String) session.getAttribute("name");
+			if (name != null) {
 			%>
-			<p class="username-display"><%=username%></p>
+			<p class="name-display"><%=name%></p>
 			<%
 			} else {
 			%>
-			<p class="username-display">ゲスト</p>
+			<p class="name-display">ゲスト</p>
 			<%
 			}
 			%>
