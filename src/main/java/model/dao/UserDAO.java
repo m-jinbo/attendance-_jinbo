@@ -28,7 +28,7 @@ public class UserDAO {
 			String employeeSql = "INSERT INTO employees (name, user_id, password, role_id) VALUES (?, ?, ?, ?)";
 			employeeStmt = conn.prepareStatement(employeeSql, PreparedStatement.RETURN_GENERATED_KEYS);
 			employeeStmt.setString(1, employee.getName());
-			employeeStmt.setString(2, employee.getUserId()); // user_id に修正
+			employeeStmt.setInt(2, employee.getUserId()); // user_id に修正
 			employeeStmt.setString(3, employee.getPassword());
 			employeeStmt.setInt(4, employee.getRoleId());
 			employeeStmt.executeUpdate();

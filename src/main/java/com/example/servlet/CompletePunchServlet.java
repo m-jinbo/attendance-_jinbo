@@ -80,11 +80,11 @@ public class CompletePunchServlet extends HttpServlet {
 		switch (type) {
 		case 1:
 			return "出勤打刻";
-		case 2:
-			return "休憩開始打刻";
 		case 3:
-			return "休憩終了打刻";
+			return "休憩開始打刻";
 		case 4:
+			return "休憩終了打刻";
+		case 2:
 			return "退勤打刻";
 		default:
 			return "不明な打刻";

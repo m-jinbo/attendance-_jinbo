@@ -24,13 +24,13 @@ public class CompleteRegistrationServlet extends HttpServlet {
 		try {
 			// ユーザー情報を取得
 			String name = request.getParameter("name");
-			String userId = request.getParameter("user_id"); // 社員ID (変更)
+			String userIdParam = request.getParameter("user_id"); // 社員ID (変更)
 			String password = request.getParameter("password");
 			String locationIdParam = request.getParameter("locationId");
 
 			// 入力検証
 			if (name == null || name.trim().isEmpty() ||
-					userId == null || userId.trim().isEmpty() ||
+					userIdParam == null || userIdParam.trim().isEmpty() ||
 					password == null || password.trim().isEmpty() ||
 					locationIdParam == null || locationIdParam.trim().isEmpty()) {
 				request.setAttribute("errorMessage", "全ての項目を入力してください。");
@@ -38,13 +38,16 @@ public class CompleteRegistrationServlet extends HttpServlet {
 				return;
 			}
 
+			// userId を整数に変換
+			int userId = Integer.parseInt(userIdParam); // 修正: userId を int に変換
+
 			// locationId を整数に変換
 			int locationId = Integer.parseInt(locationIdParam);
 
 			// Employees モデルを作成
 			Employees employee = new Employees();
 			employee.setName(name);
-			employee.setUserId(userId); // user_id に変更
+			employee.setUserId(userId); // 修正: int 型の userId をセット
 			employee.setPassword(password);
 			employee.setRoleId(2); // 一般ユーザーを想定
 
@@ -66,9 +69,9 @@ public class CompleteRegistrationServlet extends HttpServlet {
 			}
 
 		} catch (NumberFormatException e) {
-			// locationId の形式が不正
+			// userId または locationId の形式が不正
 			e.printStackTrace();
-			request.setAttribute("errorMessage", "拠点の選択が正しくありません。");
+			request.setAttribute("errorMessage", "入力値の形式が正しくありません。");
 			request.getRequestDispatcher("user_registration.jsp").forward(request, response);
 		} catch (Exception e) {
 			// その他のシステムエラー

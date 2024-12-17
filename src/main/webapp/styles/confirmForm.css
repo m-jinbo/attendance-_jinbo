@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 body {
 	font-family: Arial, sans-serif;
 	background-color: white;
@@ -20,14 +19,14 @@ body {
 	align-items: center;
 }
 
-
 .inner-container {
 	width: 520px;
 	height: 605px;
 	background-color: white;
 	padding: 20px;
 	border-radius: 0px;
-	text-align: left;
+	text-align: center;
+	/* 中央寄せ */
 	position: relative;
 }
 
@@ -37,7 +36,7 @@ body {
 	align-items: center;
 	width: 240px;
 	height: 90px;
-	margin: 50px auto;
+	margin: 83px auto;
 	font-size: 24px;
 	border: 2px solid black;
 	border-radius: 16px;
@@ -45,8 +44,4 @@ body {
 	background-color: #9dc3e6;
 	color: black;
 	transition: background-color 0.3s;
-}
-
-.button-container button:hover {
-	background-color: #0056b3;
 }

@@ -38,13 +38,13 @@ public class PunchServlet extends HttpServlet {
 		case "1":
 			punchType = "出勤打刻";
 			break;
-		case "2":
+		case "3":
 			punchType = "休憩開始打刻";
 			break;
-		case "3":
+		case "4":
 			punchType = "休憩終了打刻";
 			break;
-		case "4":
+		case "2":
 			punchType = "退勤打刻";
 			break;
 		default:

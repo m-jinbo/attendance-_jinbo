@@ -2,7 +2,7 @@ package model.entity;
 
 public class Employees {
 	private int employeeId; // 従業員の識別子
-	private String userId; // ログインID
+	private int userId; // ログインID
 	private String name; // 名前 ← 追加
 	private String password; // ログインパスワード
 	private int roleId; // 役割ID（1=管理者, 2=一般）
@@ -17,11 +17,11 @@ public class Employees {
 	}
 
 	// Getter and Setter for userId
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
