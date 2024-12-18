@@ -1,15 +1,16 @@
 package model.entity;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 
 public class Attendance {
 	private int id; // 主キー
-	private int userId;; // 社員ID
+	private int userId; // 社員ID
 	private Date date; // 勤務日
 	private Time attendanceTime; // 出勤時間
 	private Time breakTime; // 退勤時間
-	private Time totalHours; // 合計勤務時間
+	private BigDecimal totalHours; // 合計勤務時間 (例: 4.50)
 
 	// コンストラクタ
 	public Attendance() {
@@ -56,11 +57,11 @@ public class Attendance {
 		this.breakTime = breakTime;
 	}
 
-	public Time getTotalHours() {
+	public BigDecimal getTotalHours() {
 		return totalHours;
 	}
 
-	public void setTotalHours(Time totalHours) {
+	public void setTotalHours(BigDecimal totalHours) {
 		this.totalHours = totalHours;
 	}
 }

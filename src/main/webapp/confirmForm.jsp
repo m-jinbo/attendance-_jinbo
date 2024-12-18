@@ -21,7 +21,7 @@
 		<div class="inner-container">
 			<div class="button-container">
 				<!-- 勤怠情報一覧ボタン -->
-				<form action="AttendanceServlet" method="get">
+				<form action="attendance.jsp" method="get">
 					<button type="submit">勤怠情報一覧</button>
 				</form>
 

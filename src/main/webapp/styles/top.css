@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.outer-container {
+	width: 800px;
+	height: auto;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.inner-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	width: 415px;
+	height: 300px;
+	border: 2px solid #cccccc;
+	border-radius: 54px;
+}
+
+.logo-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.logo {
+	width: 86px;
+	height: auto;
+}
+
+.title {
+	margin-bottom: 10px;
+	font-size: 18px;
+	color: black;
+}
+
+.form-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+/* 社員ID */
+.userid-container label {
+	margin-top: 30px;
+	margin-left: 15px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.userid-container input[type="text"] {
+	width: 270px;
+	height: 30px;
+	margin: 7px auto 0px;
+	padding: 10px;
+	font-size: 20px;
+	border: 1px solid #cccccc;
+}
+
+/* パスワード */
+.password-container label {
+	width: 100%;
+	display: flex;
+	margin-left: 15px;
+	flex-direction: column;
+}
+
+
+.password-container input[type="password"] {
+	width: 270px;
+	height: 30px;
+	padding: 10px;
+	font-size: 20px;
+	border: 1px solid #cccccc;
+}
+
+/* ボタンコンテナ */
+.submit-container {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+}
+
+.submit-container input[type="submit"] {
+	width: 118px;
+	height: 43px;
+	font-size: 18px;
+	cursor: pointer;
+	background-color: #13b8a6;
+	color: white;
+	border: none;
+	border-radius: 8px;
+}
+
+/* エラーメッセージがある時のデザイン */
+.inner-container.error-shown .title {
+	margin: 13px 0px 0px;
+}
+
+.error-message {
+	position: relative;
+	margin-top: 3px;
+	text-align: center;
+	color: red;
+	font-size: 16px;
+}

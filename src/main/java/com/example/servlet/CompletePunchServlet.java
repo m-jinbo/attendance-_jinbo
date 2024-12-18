@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.dao.TimeRecordDAO;
 
@@ -22,7 +23,15 @@ public class CompletePunchServlet extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		int employeeId = 1; // 固定値（ログイン機能があれば置き換える）
+		// セッションから user_id を取得
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("userId") == null) {
+			response.sendRedirect("login.jsp");
+			return;
+		}
+		int userId = (Integer) session.getAttribute("userId"); // ログインユーザーのID
+
+		// リクエストから打刻タイプを取得
 		String type = request.getParameter("type");
 
 		try {
@@ -42,19 +51,25 @@ public class CompletePunchServlet extends HttpServlet {
 
 			// 登録処理
 			TimeRecordDAO dao = new TimeRecordDAO();
-			boolean success = dao.insertTimeRecord(employeeId, typeInt);
+			boolean success = dao.insertTimeRecord(userId, typeInt); // セッションから取得した userId を使用
 			if (!success) {
 				throw new SQLException("打刻の登録に失敗しました。");
 			}
 
 			// 最新の登録時間を取得
-			TimeRecordDAO timeRecordDAO = new TimeRecordDAO();
-			@SuppressWarnings("unused")
-			String registeredTime = timeRecordDAO.getLastRecordTime(employeeId);
+			String registeredTime = dao.getLastRecordTime(userId);
 
-			// 登録時間を時刻形式にフォーマット
-			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-			String formattedTime = timeFormat.format(new Date());
+			// 登録時間を時刻形式（時:分）のみでフォーマット
+			String formattedTime = null;
+			if (registeredTime != null) {
+				try {
+					Date recordTime = java.sql.Timestamp.valueOf(registeredTime); // String を Timestamp に変換
+					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+					formattedTime = timeFormat.format(recordTime); // フォーマット
+				} catch (IllegalArgumentException e) {
+					formattedTime = "時刻フォーマットエラー"; // エラー時のフォールバック
+				}
+			}
 
 			// JSPに渡すデータを設定
 			request.setAttribute("registeredTime", formattedTime);
@@ -72,9 +87,6 @@ public class CompletePunchServlet extends HttpServlet {
 
 	/**
 	 * 打刻タイプを文字列に変換するメソッド
-	 *
-	 * @param type 打刻タイプ
-	 * @return 打刻タイプ名
 	 */
 	private String convertPunchType(int type) {
 		switch (type) {
@@ -93,11 +105,6 @@ public class CompletePunchServlet extends HttpServlet {
 
 	/**
 	 * エラーメッセージを処理して表示する
-	 *
-	 * @param request  HttpServletRequest
-	 * @param response HttpServletResponse
-	 * @param errorMessage 表示するエラーメッセージ
-	 * @throws IOException
 	 */
 	private void handleError(HttpServletRequest request, HttpServletResponse response, String errorMessage)
 			throws IOException {

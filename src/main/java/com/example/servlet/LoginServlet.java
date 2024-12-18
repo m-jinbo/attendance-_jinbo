@@ -2,6 +2,8 @@ package com.example.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,84 +13,80 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.dao.UserFindDAO; // UserFindDAO クラス
-import model.entity.Employees; // Employees エンティティ
+import model.dao.UserFindDAO;
+import model.entity.Employees;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+    private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
 
-		// リクエストパラメータの取得
-		String userIdParam = request.getParameter("userid");
-		String password = request.getParameter("password");
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		boolean hasError = false; // エラーフラグ
-		Integer userId = null;
+        request.setCharacterEncoding("UTF-8");
 
-		// 社員IDの検証
-		if (userIdParam == null || userIdParam.isEmpty()) {
-			request.setAttribute("userIdError", "社員IDを入力してください。");
-			hasError = true;
-		} else {
-			try {
-				userId = Integer.parseInt(userIdParam);
-			} catch (NumberFormatException e) {
-				request.setAttribute("userIdError", "社員IDは数字でなければなりません。");
-				hasError = true;
-			}
-		}
+        String userIdParam = request.getParameter("userid");
+        String password = request.getParameter("password");
 
-		// パスワードの検証
-		if (password == null || password.isEmpty()) {
-			request.setAttribute("passwordError", "パスワードを入力してください。");
-			hasError = true;
-		}
+        boolean hasError = false;
+        Integer userId = null;
 
-		// エラーがあればログイン画面に戻す
-		if (hasError) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
-			dispatcher.forward(request, response);
-			return;
-		}
+        // Validate user ID
+        if (userIdParam == null || userIdParam.isEmpty()) {
+            request.setAttribute("userIdError", "社員IDを入力してください。");
+            hasError = true;
+        } else {
+            try {
+                userId = Integer.parseInt(userIdParam);
+            } catch (NumberFormatException e) {
+                request.setAttribute("userIdError", "社員IDは数字でなければなりません。");
+                hasError = true;
+            }
+        }
 
-		// UserFindDAO インスタンス化
-		UserFindDAO userFindDAO = new UserFindDAO();
-		Employees employee = new Employees();
-		employee.setUserId(userId); // 修正: 正しい setter 使用
-		employee.setPassword(password); // パスワード設定
+        // Validate password
+        if (password == null || password.isEmpty()) {
+            request.setAttribute("passwordError", "パスワードを入力してください。");
+            hasError = true;
+        }
 
-		// 認証処理
-		try {
-			Employees authenticatedEmployee = userFindDAO.findAccount(employee);
+        if (hasError) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
+            dispatcher.forward(request, response);
+            return;
+        }
 
-			if (authenticatedEmployee != null) { // ログイン成功
-				HttpSession session = request.getSession();
-				session.setAttribute("userId", authenticatedEmployee.getUserId());
-				session.setAttribute("name", authenticatedEmployee.getName());
+        try {
+            UserFindDAO userFindDAO = new UserFindDAO();
+            Employees employee = new Employees();
+            employee.setUserId(userId);
+            employee.setPassword(password);
 
-				// 確認フォームへフォワード
-				RequestDispatcher dispatcher = request.getRequestDispatcher("confirmForm.jsp");
-				dispatcher.forward(request, response);
-			} else { // ログイン失敗
-				request.setAttribute("error", "※社員IDまたはパスワードに誤りがあります。");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
-				dispatcher.forward(request, response);
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-			request.setAttribute("error", "データベースエラーが発生しました。再度お試しください。");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
-			dispatcher.forward(request, response);
-		}
-	}
+            Employees authenticatedEmployee = userFindDAO.findAccount(employee);
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.getRequestDispatcher("top.jsp").forward(request, response);
-	}
+            if (authenticatedEmployee != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("userId", authenticatedEmployee.getUserId());
+                session.setAttribute("name", authenticatedEmployee.getName());
+
+                response.sendRedirect("confirmForm.jsp");
+            } else {
+                request.setAttribute("error", "社員IDまたはパスワードが正しくありません。");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
+                dispatcher.forward(request, response);
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "データベースエラーが発生しました。", e);
+            request.setAttribute("error", "データベースエラーが発生しました。");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "システムエラーが発生しました。", e);
+            request.setAttribute("error", "システムエラーが発生しました。");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("top.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
 }

@@ -5,7 +5,9 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.dao.LeaveRequestDAO;
 
@@ -14,19 +16,28 @@ public class LeaveRequestSubmitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doPost(javax.servlet.http.HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// リクエストの文字エンコーディングをUTF-8に設定
 		request.setCharacterEncoding("UTF-8");
 
+		// セッションから user_id を取得
+		HttpSession session = request.getSession(false);
+		if (session == null || session.getAttribute("userId") == null) {
+			// ログインしていない場合はログインページへリダイレクト
+			response.sendRedirect("login.jsp");
+			return;
+		}
+		int userId = (Integer) session.getAttribute("userId");
+
 		// 入力データを取得
-		int employeeId = 1; // 固定値（ログイン機能未実装）
 		String startDate = request.getParameter("startDate");
 		String endDate = request.getParameter("endDate");
 		String leaveTypeParam = request.getParameter("leaveType");
 		String reason = request.getParameter("reason");
 
 		// デバッグ用ログ
+		System.out.println("userId: " + userId);
 		System.out.println("startDate: " + startDate);
 		System.out.println("endDate: " + endDate);
 		System.out.println("leaveType: " + leaveTypeParam);
@@ -53,10 +64,12 @@ public class LeaveRequestSubmitServlet extends HttpServlet {
 		LeaveRequestDAO leaveRequestDAO = new LeaveRequestDAO();
 		boolean isInserted = false;
 		try {
-			isInserted = leaveRequestDAO.insertLeaveRequest(employeeId, leaveType, startDate, endDate, reason);
+			isInserted = leaveRequestDAO.insertLeaveRequest(userId, leaveType, startDate, endDate, reason);
 		} catch (ClassNotFoundException e) {
-			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
+			request.setAttribute("errorMessage", "システムエラーが発生しました。");
+			request.getRequestDispatcher("leaveRequestConfirmation.jsp").forward(request, response);
+			return;
 		}
 
 		if (isInserted) {
@@ -68,5 +81,4 @@ public class LeaveRequestSubmitServlet extends HttpServlet {
 			request.getRequestDispatcher("leaveRequestConfirmation.jsp").forward(request, response);
 		}
 	}
-
 }

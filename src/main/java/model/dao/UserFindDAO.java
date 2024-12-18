@@ -12,37 +12,74 @@ public class UserFindDAO {
 
 	private static final Logger logger = Logger.getLogger(UserFindDAO.class.getName());
 
-	// ログインアカウントを探す
-	public Employees findAccount(Employees employee) throws ClassNotFoundException, SQLException {
+	/**
+	 * user_id と password に基づいて認証するメソッド
+	 *
+	 * @param employee Employees オブジェクト（userId, password を設定済み）
+	 * @return 認証成功時: Employees オブジェクト / 失敗時: null
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public Employees findAccount(Employees employee) throws SQLException, ClassNotFoundException {
+		Employees authenticatedEmployee = null;
 
-		Employees resultEmployee = null;
-
-		// SQLクエリ: user_id と password で検索し、employee_id, name, role_id を取得
-		String sql = "SELECT employee_id, user_id, name, role_id " +
-				"FROM employees WHERE user_id = ? AND password = ?";
+		String sql = "SELECT employee_id, user_id, name, role_id FROM employees WHERE user_id = ? AND password = ?";
 
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(sql)) {
 
-			// プレースホルダに値をセット
 			ps.setInt(1, employee.getUserId());
 			ps.setString(2, employee.getPassword());
 
-			// クエリ実行
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
-					resultEmployee = new Employees();
-					resultEmployee.setEmployeeId(rs.getInt("employee_id")); // employee_id のセット
-					resultEmployee.setUserId(rs.getInt("user_id")); // user_id のセット
-					resultEmployee.setName(rs.getString("name")); // name のセット
-					resultEmployee.setRoleId(rs.getInt("role_id")); // role_id のセット
+					authenticatedEmployee = new Employees();
+					authenticatedEmployee.setEmployeeId(rs.getInt("employee_id"));
+					authenticatedEmployee.setUserId(rs.getInt("user_id"));
+					authenticatedEmployee.setName(rs.getString("name"));
+					authenticatedEmployee.setRoleId(rs.getInt("role_id"));
 				}
 			}
 		} catch (SQLException e) {
-			logger.severe("SQLエラー: " + e.getMessage());
+			logger.severe("findAccount SQLエラー: " + e.getMessage());
 			throw e;
 		}
 
-		return resultEmployee; // 結果の Employees オブジェクトを返す
+		return authenticatedEmployee;
+	}
+
+	/**
+	 * user_id に基づいて従業員情報を取得するメソッド
+	 *
+	 * @param userId ユーザーID
+	 * @return 従業員情報 Employees オブジェクト / 失敗時: null
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public Employees findEmployeeByUserId(int userId) throws SQLException, ClassNotFoundException {
+		Employees employee = null;
+
+		String sql = "SELECT employee_id, user_id, name, role_id FROM employees WHERE user_id = ?";
+
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement ps = con.prepareStatement(sql)) {
+
+			ps.setInt(1, userId);
+
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					employee = new Employees();
+					employee.setEmployeeId(rs.getInt("employee_id"));
+					employee.setUserId(rs.getInt("user_id"));
+					employee.setName(rs.getString("name"));
+					employee.setRoleId(rs.getInt("role_id"));
+				}
+			}
+		} catch (SQLException e) {
+			logger.severe("findEmployeeByUserId SQLエラー: " + e.getMessage());
+			throw e;
+		}
+
+		return employee;
 	}
 }
