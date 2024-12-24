@@ -15,7 +15,8 @@
 		</div>
 
 		<!-- 内側コンテナ -->
-		<div class="inner-container <%=request.getAttribute("errorMessage") != null ? "error-shown" : ""%>">
+		<div
+			class="inner-container <%=request.getAttribute("errorMessage") != null ? "error-shown" : ""%>">
 
 			<!-- エラーメッセージコンテナ -->
 			<div class="error-container">
@@ -70,4 +71,3 @@
 	</div>
 </body>
 </html>
-F
