@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.outer-container {
+	width: 630px;
+	height: 690px;
+	background-color: #f2f2f2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.inner-container {
+	width: 520px;
+	height: 605px;
+	background-color: white;
+	padding: 20px;
+	border-radius: 0px;
+	text-align: left;
+	position: relative;
+}
+
+.form-container {
+	display: flex;
+	/* 横並びに配置 */
+	justify-content: space-between;
+	/* 左右に要素を配置 */
+}
+
+.form form-back {
+	display: flex;
+
+}
+
+.button-back {
+	margin-top: 0px;
+	height: 35px;
+	width: 85px;
+	background-color: #a2b8e0;
+	border-radius: 6px;
+	border: 1px solid black;
+}
+
+.filter-container {
+	margin-top: 40px;
+	/* "一覧に戻るボタン"の少し下に配置 */
+	display: flex;
+	justify-content: flex-start;
+	/* 左寄せ */
+	align-items: center;
+	/* 垂直方向のセンタリング */
+	gap: 10px;
+	/* フォーム内要素間のスペース */
+}
+
+.select-year {
+	text-align: center;
+	height: 25px;
+	border-radius: 6px;
+	border: 1px solid black;
+}
+
+.select-month {
+	text-align: center;
+	height: 25px;
+	border-radius: 6px;
+	border: 1px solid black;
+}
+
+.button-filter {
+	height: 25px;
+	width: 50px;
+	background-color: #a2b8e0;
+	border-radius: 6px;
+	border: 1px solid black;
+}
+
+.summary-title {
+	text-align: center;
+	font-size: 22px;
+}
+
+.summary-table {
+	 width: 100%; /* 親要素の幅に合わせる */
+    border-collapse: collapse; /* 境界線を統一 */
+    border-spacing: 0; /* セル間の余白をゼロに設定 */
+	table-layout: fixed; /* 列幅を固定 */
+	justify-content: center;
+	font-family: Arial, sans-serif;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.table-header,
+.table-row {
+	font-weight: normal;
+	padding: 5px;
+	font-size: 19px;
+	text-align: center;
+	border: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.table-header td, .table-row td { 
+	box-sizing: border-box;
+	border-right: 1px solid black; /* セルの右側に縦線を追加 */
+	 width: 22%; /* 各セルの幅を22%に設定 */
+}
+
+/* 2行目以降のセルを特定 */
+.table-row td:nth-child(1),
+.table-row td:nth-child(2),
+.table-row td:nth-child(3),
+.table-row td:nth-child(4),
+.table-row td:nth-child(5) {
+    height: 70px; /* 数字セルの高さ */
+    vertical-align: middle; /* 垂直中央揃え */
+    text-align: center; /* 水平中央揃え */
+}
+
+

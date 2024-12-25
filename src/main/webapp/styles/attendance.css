@@ -1,0 +1,113 @@
+@charset "UTF-8";
+
+body {
+	min-height: 130vh;
+	font-family: Arial, sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.outer-container {
+	width: 630px;
+	height: 870px;
+	background-color: #f2f2f2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.inner-container {
+	width: 520px;
+	height: 780px;
+	background-color: white;
+	padding: 20px;
+	border-radius: 0px;
+	text-align: left;
+	position: relative;
+}
+
+.attendance_header {
+    display: flex; /* 横並びに配置 */
+    align-items: center; /* 縦方向の中央揃え */
+    justify-content: space-between; /* 左右に要素を配置 */
+}
+
+.attendance_label {
+	margin-left: 15px;
+}
+
+.attendance_form {
+	text-align: right;
+	margin-bottom: 0px;
+}
+.button-summary {
+	height: 35px;
+	width: 100px;
+	background-color: #a2b8e0;
+	border-radius: 6px;
+	border: 1px solid black;
+}
+
+.attendance_content {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	/* テーブルを横方向中央揃え */
+}
+.attendance_display-label{
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.attendance_table {
+	width: 511px;
+	font-family: Arial, sans-serif;
+	text-align: center;
+	margin: 0 auto;
+	border-collapse: collapse;
+
+}
+
+.attendance_table th,
+.attendance_table td {
+	padding: 5px;
+	font-size: 10px;
+	text-align: center;
+	border: none;
+	border-bottom: 1px solid #ddd;
+}
+
+.attendance_table th {
+	background-color: #d9d9d9;
+}
+
+.attendance_total td {
+    text-align: left; /* 左揃え（必要ならcenterなどに変更可能） */
+    vertical-align: middle; /* 縦方向中央揃え */
+    font-weight: normal; /* 太字を解除 */
+}
+
+.attendance_table .attendance_total_row td {
+    border-bottom: none; 
+}
+
+.attendance_navigation{
+	margin: 20px 5px 15px;
+	 display: flex; /* 横並びに配置 */
+    align-items: center; /* 縦方向の中央揃え */
+    justify-content: space-between; /* 左右に要素を配置 */
+	
+}
+
+.button-nav {
+	height: 35px;
+	width: 80px;
+	background-color: #a2b8e0;
+	border-radius: 6px;
+	border: 1px solid black;
+}

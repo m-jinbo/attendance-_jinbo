@@ -25,7 +25,7 @@ public class LeaveRequestSubmitServlet extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("userId") == null) {
 			// ログインしていない場合はログインページへリダイレクト
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("top.jsp");
 			return;
 		}
 		int userId = (Integer) session.getAttribute("userId");

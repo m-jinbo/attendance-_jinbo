@@ -233,11 +233,24 @@ public class MonthlySummaryDAO {
 				    WHERE user_id = ?
 				      AND DATE_FORMAT(start_date, '%Y') = ?
 				),
+				holiday_work_days AS (
+				    SELECT
+				        COUNT(DISTINCT t.work_date) AS holiday_work_days
+				    FROM work_hours t
+				    WHERE WEEKDAY(t.work_date) IN (5, 6) -- 土日
+				       OR EXISTS (
+				           SELECT 1
+				           FROM leave_requests lr
+				           WHERE lr.user_id = ?
+				             AND t.work_date BETWEEN lr.start_date AND lr.end_date
+				       )
+				),
 				yearly_summary AS (
 				    SELECT
 				        COUNT(fc.work_date) AS scheduled_days, -- 平日数
 				        COUNT(fc.work_date) * 8 AS scheduled_work_hours, -- 平日数 × 8時間
 				        COUNT(DISTINCT w.work_date) AS actual_work_days,
+				        (SELECT holiday_work_days FROM holiday_work_days) AS holiday_work_days, -- 修正
 				        COALESCE(FLOOR(SUM(w.work_seconds) / 3600), 0) AS total_work_hours,
 				        COALESCE(FLOOR(SUM(w.late_night_seconds) / 3600), 0) AS total_late_night_hours,
 				        COALESCE(FLOOR(SUM(GREATEST(w.work_seconds - (8 * 3600), 0)) / 3600), 0) AS total_overtime_hours,
@@ -265,10 +278,11 @@ public class MonthlySummaryDAO {
 			pstmt.setInt(5, userId); // For breaks
 			pstmt.setInt(6, userId); // For leave_summary (paid_leave_days)
 			pstmt.setString(7, year); // For leave_summary (paid_leave_days)
-			pstmt.setInt(8, userId); // For leave_summary (absence_days)
-			pstmt.setString(9, year); // For leave_summary (absence_days)
-			pstmt.setInt(10, userId); // For leave_summary (paid_leave_days in filtered_calendar)
-			pstmt.setString(11, year); // For leave_summary (absence_days in filtered_calendar)
+			pstmt.setInt(8, userId); // For holiday_work_days
+			pstmt.setInt(9, userId); // For holiday_work_days in EXISTS subquery
+			pstmt.setInt(10, userId); // For leave_summary (paid_leave_days in yearly_summary)
+			pstmt.setString(11, year); // For leave_summary (absence_days in yearly_summary)
+			pstmt.setInt(12, userId); // For leave_summary (absence_days in yearly_summary)
 
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {

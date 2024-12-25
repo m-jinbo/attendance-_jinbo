@@ -1,12 +1,12 @@
 package model.entity;
 
 import java.sql.Date;
-import java.sql.Time;
 
 public class DailyAttendance {
 	private Date workDate;
-	private Time startTime;
-	private Time endTime;
+	private String workDateFormatted; 
+	private String startTime; 
+	private String endTime; 
 	private String breakTime;
 	private String workingTime;
 
@@ -18,19 +18,27 @@ public class DailyAttendance {
 		this.workDate = workDate;
 	}
 
-	public Time getStartTime() {
+	public String getWorkDateFormatted() {
+		return workDateFormatted;
+	}
+
+	public void setWorkDateFormatted(String workDateFormatted) {
+		this.workDateFormatted = workDateFormatted;
+	}
+
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Time startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Time getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Time endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 

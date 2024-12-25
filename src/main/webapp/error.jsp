@@ -17,7 +17,7 @@
 
 	<!-- ナビゲーションリンク -->
 	<p>
-		<a href="login.jsp">ログインページに戻る</a><br> <a href="index.jsp">ホームに戻る</a>
+		<a href="top.jsp">ログインページに戻る</a><br> <a href="confirmForm.jsp">ホームに戻る</a>
 	</p>
 </body>
 </html>

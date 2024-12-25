@@ -29,7 +29,7 @@ public class MonthlySummaryServlet extends HttpServlet {
 
 		// セッションがない場合はログインページにリダイレクト
 		if (userIdObject == null) {
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("top.jsp");
 			return;
 		}
 

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +28,6 @@ public class AttendanceServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// JDBCドライバのロード
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -38,82 +38,98 @@ public class AttendanceServlet extends HttpServlet {
 			return;
 		}
 
-		// ユーザーセッションを取得
 		HttpSession session = request.getSession();
 		Object userIdObject = session.getAttribute("userId");
 
-		// デバッグ: セッションの userId 確認
-		System.out.println("Session userId: " + userIdObject);
-
 		if (userIdObject == null) {
-			System.out.println("User is not logged in. Redirecting to login page.");
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("top.jsp");
 			return;
 		}
 
 		String userId = userIdObject.toString();
-		System.out.println("Validated userId: " + userId);
-
-		// リクエストパラメータから年月を取得
 		String yearParam = request.getParameter("year");
 		String monthParam = request.getParameter("month");
 
-		// 年月を設定（デフォルトは当月）
 		Calendar calendar = Calendar.getInstance();
 		if (yearParam != null && monthParam != null) {
 			try {
 				calendar.set(Calendar.YEAR, Integer.parseInt(yearParam));
 				calendar.set(Calendar.MONTH, Integer.parseInt(monthParam) - 1); // 0始まり
 			} catch (NumberFormatException e) {
-				System.out.println("Invalid year or month format: " + yearParam + ", " + monthParam);
 				request.setAttribute("errorMessage", "不正な年月の形式です。");
 				request.getRequestDispatcher("error.jsp").forward(request, response);
 				return;
 			}
 		}
 
-		// 表示する月の開始日と終了日を計算
-		calendar.set(Calendar.DAY_OF_MONTH, 1); // 月初
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String startDate = dateFormat.format(calendar.getTime()) + " 00:00:00";
 
 		calendar.add(Calendar.MONTH, 1);
-		calendar.set(Calendar.DAY_OF_MONTH, 0); // 月末
+		calendar.set(Calendar.DAY_OF_MONTH, 0);
 		String endDate = dateFormat.format(calendar.getTime()) + " 23:59:59";
 
-		System.out.println("StartDate: " + startDate);
-		System.out.println("EndDate: " + endDate);
-
 		try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-			System.out.println("Database connection established.");
-
-			// DAO を使用して勤怠データを取得
 			DailyAttendanceDAO dao = new DailyAttendanceDAO(conn);
 			List<DailyAttendance> attendanceList = dao.getAttendanceByUserId(userId, startDate, endDate);
 
-			// デバッグ: リスト内容確認
-			System.out.println("Attendance List Size: " + (attendanceList != null ? attendanceList.size() : "null"));
 			if (attendanceList != null) {
+				SimpleDateFormat dateFormatter = new SimpleDateFormat("M月d日(E)", Locale.JAPANESE);
+				String totalWorkingTime = "00:00";
+
 				for (DailyAttendance attendance : attendanceList) {
-					System.out.println("Work Date: " + attendance.getWorkDate());
-					System.out.println("Start Time: " + attendance.getStartTime());
-					System.out.println("End Time: " + attendance.getEndTime());
-					System.out.println("Break Time: " + attendance.getBreakTime());
-					System.out.println("Working Time: " + attendance.getWorkingTime());
+					if (attendance.getWorkDate() != null) {
+						attendance.setWorkDateFormatted(dateFormatter.format(attendance.getWorkDate()));
+					}
+
+					// 累計時間の処理
+					String workingTime = attendance.getWorkingTime() != null ? attendance.getWorkingTime() : "00:00";
+					totalWorkingTime = addTimes(totalWorkingTime, workingTime);
 				}
+
+				// 合計行をリストに追加
+				DailyAttendance totalRow = new DailyAttendance();
+				totalRow.setWorkDateFormatted("合計時間");
+				totalRow.setStartTime(""); // 合計行は空の値
+				totalRow.setEndTime(""); // 合計行は空の値
+				totalRow.setBreakTime(""); // 合計行は空の値
+				totalRow.setWorkingTime(totalWorkingTime); // 累計時間を設定
+				attendanceList.add(totalRow);
 			}
 
-			// JSP にデータを渡す
 			request.setAttribute("attendanceList", attendanceList);
 			request.setAttribute("year", calendar.get(Calendar.YEAR));
-			request.setAttribute("month", String.format("%02d", calendar.get(Calendar.MONTH) + 1)); // 月を設定
+			request.setAttribute("month", String.format("%02d", calendar.get(Calendar.MONTH) + 1));
 			request.getRequestDispatcher("attendance.jsp").forward(request, response);
 
 		} catch (SQLException e) {
-			System.out.println("Database error occurred.");
-			e.printStackTrace();
 			request.setAttribute("errorMessage", "データベースエラー: " + e.getMessage());
 			request.getRequestDispatcher("error.jsp").forward(request, response);
+		} catch (Exception e) {
+			request.setAttribute("errorMessage", "予期しないエラー: " + e.getMessage());
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		}
+	}
+
+	// ヘルパーメソッド: HH:mm を足し合わせる
+	private String addTimes(String time1, String time2) {
+		try {
+			if (time1 == null || time1.isEmpty())
+				time1 = "00:00";
+			if (time2 == null || time2.isEmpty())
+				time2 = "00:00";
+
+			String[] parts1 = time1.split(":");
+			String[] parts2 = time2.split(":");
+			int hours = Integer.parseInt(parts1[0]) + Integer.parseInt(parts2[0]);
+			int minutes = Integer.parseInt(parts1[1]) + Integer.parseInt(parts2[1]);
+			hours += minutes / 60;
+			minutes %= 60;
+			return String.format("%02d:%02d", hours, minutes);
+		} catch (Exception e) {
+			System.out.println("Error adding times: " + time1 + ", " + time2 + ". Error: " + e.getMessage());
+		}
+		return "00:00";
 	}
 }

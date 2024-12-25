@@ -23,7 +23,7 @@
 			</div>
 
 			<div class="button-container">
-				<a href="leave_request.jsp">メニューへ戻る</a>
+				<a href="confirmForm.jsp">メニューへ戻る</a>
 			</div>
 		</div>
 	</div>

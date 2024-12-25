@@ -24,7 +24,7 @@
 
 			<!-- ログインボタン -->
 			<div class="button-container">
-				<a href="login.jsp" class="login-button">ログインへ</a>
+				<a href="top.jsp" class="login-button">ログインへ</a>
 			</div>
 		</div>
 	</div>

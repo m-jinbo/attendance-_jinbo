@@ -26,7 +26,7 @@ public class CompletePunchServlet extends HttpServlet {
 		// セッションから user_id を取得
 		HttpSession session = request.getSession(false);
 		if (session == null || session.getAttribute("userId") == null) {
-			response.sendRedirect("login.jsp");
+			response.sendRedirect("top.jsp");
 			return;
 		}
 		int userId = (Integer) session.getAttribute("userId"); // ログインユーザーのID
